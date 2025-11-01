@@ -2,7 +2,6 @@
 
 const addButton = document.getElementById("addbutton");
 const noteListCol = document.getElementById("notelistcol");
-var maxNoteID = -1;
 var newNoteInput = document.getElementById("newnote");
 var newNoteInput = document.getElementById("newnote");
 var noteListArray = [];
@@ -21,8 +20,6 @@ var newNote;
 //Add event listeners
 
 //(Event listeners need to be able to send data to server and refresh the page)
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const dataList = document.getElementById("data-list");
