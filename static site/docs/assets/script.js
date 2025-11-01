@@ -1,12 +1,13 @@
 // GLOBAL DECLARATIONS, DEFINITIONS, AND INITIALISATION
 
 const addButton = document.getElementById("addbutton");
-const taskListCol = document.getElementById("notelistcol");
-var maxTaskID = -1;
-var newTaskInput = document.getElementById("newnote");
-var taskListArray = [];
+const noteListCol = document.getElementById("notelistcol");
+var maxNoteID = -1;
+var newNoteInput = document.getElementById("newnote");
+var newNoteInput = document.getElementById("newnote");
+var noteListArray = [];
 var newArray = [];
-var newTask;
+var newNote;
 
 // ADDING TASKS
 
@@ -17,14 +18,14 @@ addButton.addEventListener("click", function(e) {
         text:newNoteInput.value
     }
     nC = noteCheck(newNote.text, noteListArray);
-    if (tC) {
+    if (nC) {
         maxNoteID++;
         newNote.ID = maxNoteID;
-        addTask(newNote)
+        addNote(newNote)
     }
 })
 
-function noteCheck(note, noteListArray){
+function noteCheck(text, noteListArray){
 //Excluding empty notes
     if (text == ""){
         alert("Please write new note in the box.")
@@ -54,25 +55,25 @@ function addNote(newNote) {
 function showNotes(noteListArray, id) {
 //"id" is the note id of a note for which the edit button has been clicked. If no note is being edited, then this is -1.
     //Clear display of notes, to rebuild
-    currentTasks.innerHTML = "";
+    currentNotes.innerHTML = "";
 
 //Adding notes into the display, one at a time
-    taskListArray.forEach(function (task) {
-//"taskTitleNode" is the node displaying the note number label
-//"taskEditNode" is the edit button
-//"taskDeleteNode" is the delete button
-//"taskTextNode" is the note description
-//"taskNode" is the full note row
+    noteListArray.forEach(function (note) {
+        //note.text = `<pre>$(note.text)</pre>`
+//"noteTitleNode" is the node displaying the note number label
+//"noteEditNode" is the edit button
+//"noteDeleteNode" is the delete button
+//"noteTextNode" is the note description
+//"noteNode" is the full note row
 //Node generation
         const noteNode = document.createElement("div");
-        const noteTitleNode = document.createElement("div");
+        const noteTitleNode = document.createElement("button");
         var noteEditNode = document.createElement("button");
         const noteDeleteNode = document.createElement("button");
 //Node styling
         noteNode.className = "row pb-3";
         noteTitleNode.className = "col-2 notetitle bg-primary";
         noteDeleteNode.className = "col-2 notedelete bg-danger";
-        noteTitleNode.style.textAlign = "center";
 //Node content
         noteTitleNode.textContent = `Note ${note.ID+1}`;
         noteDeleteNode.textContent = "Delete";
@@ -94,7 +95,8 @@ function showNotes(noteListArray, id) {
             noteEditNode.className = "col-2 taskedit bg-warning";
             noteEditNode.textContent = "Save";
 //In this case, define the text node as an "input" element
-            var noteTextNode = document.createElement("input");
+            var noteTextNode = document.createElement("textarea");
+            noteTextNode.setAttribute('rows', 6);
             noteTextNode.defaultValue = note.text;                   
             noteEditNode.addEventListener(
                 "click",
@@ -103,7 +105,7 @@ function showNotes(noteListArray, id) {
 //When the save button is clicked, the edited text becomes the fixed note description                    
                         if (note.text == noteTextNode.value){
                         }
-                        else if (taskCheck(noteTextNode.value, noteListArray)){
+                        else if (noteCheck(noteTextNode.value, noteListArray)){
                             note.text = noteTextNode.value;
                         }
                         showNotes(noteListArray, -1)
@@ -117,7 +119,7 @@ function showNotes(noteListArray, id) {
             noteEditNode.className = "col-2 noteedit bg-success";
             noteEditNode.textContent = "Edit";
             var noteTextNode = document.createElement("div");
-            noteTextNode.textContent = note.text;
+            noteTextNode.innerHTML = `<pre>${note.text}</pre>`
             noteEditNode.addEventListener(
                 "click",
                 function(e) {

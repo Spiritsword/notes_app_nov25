@@ -10,7 +10,7 @@
      />
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/styles.css">
-    <title>To Do List</title>
+    <title>Notes</title>
 </head>
 <body>
     <header class="container-fluid">
@@ -28,8 +28,8 @@
                     </section>
                     <form id="new-note">
                         <div class="mb-3">
-                            <label for="new-note" class="form-label">New note:</label>
-                            <input type="text" class="form-control" id="newnote" name="newnote" aria-label="note">
+                            <label for="newnote" class="form-label">New note:</label>
+                            <textarea class="form-control" id="newnote" rows="5" aria-label="note"></textarea>
                         </div>
                         <div class="row justify-content-end">
                             <button type="submit" id="addbutton" class="btn btn-primary m-3">Submit</button>
