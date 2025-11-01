@@ -1,0 +1,16 @@
+# PLAN AND DISCUSSION
+## Project Strategy
+
+1) Base project on Todo list app
+2) Adapt for notetaking and transform to server-based implementation
+
+
+## Planned Flow
+
+1) Set up file system and create detailed project tasklist
+2) Import Todo app
+3) Develop Todo app into note-taking system
+4) Build out server functionality
+5) Text server functionality with Postman
+6) Integrate back-end and front-end and deploy on render.com 
+7) Test the site
