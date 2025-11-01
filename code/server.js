@@ -1,4 +1,4 @@
-//NITIALISATION
+//INITIALISATION
 
 // Import the required modules
 const express = require("express");
@@ -60,15 +60,14 @@ const writeData = (data) => {
 //Create a note
 
 // Handle POST request to save new data with a unique ID
-app.post("/data", (req, res) => {
-  const newData = { id: uuidv4(), ...req.body };
+app.post("/note", (req, res) => {
   const currentData = readData();
+  const maxNoteID = currentData[0].maxNoteID
+  const newData = {id:(maxNoteID+1), req.body};
   currentData.push(newData);
   writeData(currentData);
-  res.json({ message: "Data saved successfully", data: newData });
+  res.json({ message: "Note saved successfully", note: newData });
 });
-
-//Read all notes
 
 // Handle GET request to read all notes
 app.get("/all_notes", (req, res) => {
@@ -76,9 +75,7 @@ app.get("/all_notes", (req, res) => {
   res.json(all_notes);
 });
 
-//(Read a particular note)
-
-// Handle GET request to retrieve data by ID
+// Handle GET request to Read a particular note by ID
 app.get("/data/:id", (req, res) => {
   const data = readData();
   const item = data.find((item) => item.id === req.params.id);
@@ -88,37 +85,33 @@ app.get("/data/:id", (req, res) => {
   res.json(item);
 });
 
+
 // TODO: Handle PUT request  to update a particular note
 
 app.post("/data/put/:id", (req, res) => {
     const currentData = readData();
-    const item = currentData.find((item) => item.id === req.params.id);
-    if (!item) {
-      return res.status(404).json({ message: "Data not found" });
+    const noteIndex = currentData.findIndex((note) => note.id === req.params.id);
+    if (!noteIndex) {
+      return res.status(404).json({ message: "Note not found" });
     };
-    currentData.delete(item.id)
-    const newData = { id: item.id, ...req.body };
+    const maxNoteID = currentData[0].maxNoteID
+    const newData = {id:(maxNoteID+1), req.body};
+    currentData.splice(noteIndex, 1, newData )
     currentData.push(newData);
     writeData(currentData);
     res.json({ message: "Data updated successfully", data: newData });
+});
 
 
 // TODO: Handle DELETE request to delete a particular note
 
 app.post("/data/delete/:id", (req, res) => {
     currentData = readData();
-    const item = currentData.find((item) => item.id === req.params.id);
-    if (!item) {
-      return res.status(404).json({ message: "Data not found" });
+    const noteIndex = currentData.findIndex((note) => note.id === req.params.id);
+    if (!noteIndex) {
+      return res.status(404).json({message: "Data not found"});
     };
-    currentData.delete(item.id)
+    currentData.splice(itemIndex, 1, req.body.text)
     writeData(currentData);
-    res.json({ message: "Data saved successfully", data: newData });
-
-    
-/* Handle POST request at the /echo route
-app.post("/echo", (req, res) => {
-  // Respond with the same data that was received in the request body
-  res.json({ received: req.body });
-});
-*/
+    res.json({message: "Data saved successfully"});
+})
