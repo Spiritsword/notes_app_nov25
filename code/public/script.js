@@ -14,19 +14,11 @@ var newNote;
 
 //Get Notes Data
 
-
-
-
-
 //Amend DOM According to Notes Data
 
 //Add event listeners
 
 //(Event listeners need to be able to send data to server and refresh the page)
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const dataList = document.getElementById("data-list");
