@@ -9,6 +9,33 @@ var noteListArray = [];
 var newArray = [];
 var newNote;
 
+
+//REFRESH PAGE
+
+//Get Base HTML - assumed
+
+//Get Notes Data
+
+//Amend DOM According to Notes Data
+
+//Add event listeners
+
+//(Event listeners need to be able to send data to server and refresh the page)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ADDING TASKS
 
 addButton.addEventListener("click", function(e) {
