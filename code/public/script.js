@@ -141,7 +141,13 @@ function showNotes(noteListArray, id) {
     })
 }
 
+/* TODO
 
+const addNote(id, text)
+
+const amendNote(id, text)
+
+const deleteNote(id)
 
 /*
 
