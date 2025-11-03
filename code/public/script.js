@@ -91,7 +91,7 @@ function showNotes(noteListArray, id) {
             noteTextNode.setAttribute('rows', 6);
             noteTextNode.defaultValue = note.text;
   
-/* TODO Add edit event listener            
+/* TODO Add save event listener            
 
             noteEditNode.addEventListener(
                 "click",
@@ -146,9 +146,6 @@ function showNotes(noteListArray, id) {
 
 
 }
-
-
-
 
         dataList.innerHTML = ""; // Clear the list before rendering
         data.forEach((item) => {
