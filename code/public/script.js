@@ -117,17 +117,14 @@ function showNotes(noteListArray, id) {
             noteEditNode.textContent = "Edit";
             var noteTextNode = document.createElement("div");
             noteTextNode.innerHTML = `<pre>${note.text}</pre>`
-
-/* TODO add edit event listener            
             noteEditNode.addEventListener(
                 "click",
                 function(e) {
                     e.preventDefault();
-//If the edit event listener is triggered, then display the notes, with the current note in edit mode
+//If the edit event listener is triggered, then display the notes, with the current note in edit mode (i.e. with save button)
                     showNotes(noteListArray, noteEditNode.id)
                 }
             )
-*/
         }
 
 //TODO Formatting the note description
@@ -145,6 +142,11 @@ function showNotes(noteListArray, id) {
 }
 
 
+
+/*
+
+Code snippet from Week 7 exercise
+
 }
 
         dataList.innerHTML = ""; // Clear the list before rendering
@@ -154,17 +156,12 @@ function showNotes(noteListArray, id) {
         dataList.appendChild(li);
         });
 
-
-
+*/
 
 
 //Add event listeners
 
-
-
 //(Event document listener need to be able refresh the page)
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const dataList = document.getElementById("data-list");
