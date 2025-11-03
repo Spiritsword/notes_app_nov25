@@ -14,11 +14,160 @@ var newNote;
 
 //Get Notes Data
 
+//Extract nodeListArray from data by removing maxNodId element at start of data array
+
+function extractNoteListArray(data){
+    return(data.shift(1));
+}
+
+// Function to fetch nodeListArray from the backend
+
+const fetchData = async () => {
+    try {
+        const response = await fetch("/data");
+        const data = await response.json();
+        const noteListArray = extractNoteListArray(data);
+        return(noteListArray);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
 //Amend DOM According to Notes Data
+
+function refreshNotesOnPage (noteListArray, id) {
+
+//Helper function to display the notes
+function showNotes(noteListArray, id) {
+//"id" is the note id of a note for which the edit button has been clicked. If no note is being edited, then this is -1.
+    //Clear display of notes, to rebuild
+    currentNotes.innerHTML = "";
+
+//Adding notes into the display, one at a time
+    noteListArray.forEach(function (note) {
+        //note.text = `<pre>$(note.text)</pre>`
+//"noteTitleNode" is the node displaying the note number label
+//"noteEditNode" is the edit button
+//"noteDeleteNode" is the delete button
+//"noteTextNode" is the note description
+//"noteNode" is the full note row
+//Node generation
+        const noteNode = document.createElement("div");
+        const noteTitleNode = document.createElement("button");
+        var noteEditNode = document.createElement("button");
+        const noteDeleteNode = document.createElement("button");
+//Node styling
+        noteNode.className = "row pb-3";
+        noteTitleNode.className = "col-2 notetitle bg-primary";
+        noteDeleteNode.className = "col-2 notedelete bg-danger";
+//Node content
+        noteTitleNode.textContent = `Note ${note.ID+1}`;
+        noteDeleteNode.textContent = "Delete";
+
+
+/* TODO Task deletion functionality added to delete button
+        noteDeleteNode.id = note.ID;
+        noteDeleteNode.addEventListener(
+            "click",
+            function(e) {
+            e.preventDefault();
+            newArray = spliceOut(noteListArray, noteDeleteNode.id);
+            showNotes(newArray);
+            reset()
+            }
+        )
+
+*/
+
+//Labelling the edit node with the note id, so that the id can be accessed when the edit event listener is triggered.
+        noteEditNode.id = note.ID;
+
+//If note has been clicked for editing, replace the edit button with a save button, and requisite functionality
+        if (noteEditNode.id == id) {
+            noteEditNode.className = "col-2 taskedit bg-warning";
+            noteEditNode.textContent = "Save";
+//In this case, define the text node as an "input" element
+            var noteTextNode = document.createElement("textarea");
+            noteTextNode.setAttribute('rows', 6);
+            noteTextNode.defaultValue = note.text;
+  
+/* TODO Add edit event listener            
+
+            noteEditNode.addEventListener(
+                "click",
+                function(e) {
+                    e.preventDefault();
+//When the save button is clicked, the edited text becomes the fixed note description                    
+                        if (note.text == noteTextNode.value){
+                        }
+                        else if (noteCheck(noteTextNode.value, noteListArray)){
+                            note.text = noteTextNode.value;
+                        }
+                        showNotes(noteListArray, -1)
+
+//Rebuilding the note list without any note being in edit mode
+                }
+            )
+*/                
+        }
+
+//If the note is not already being edited, then set up the edit button, with appropriate functionality
+        else {
+            noteEditNode.className = "col-2 noteedit bg-success";
+            noteEditNode.textContent = "Edit";
+            var noteTextNode = document.createElement("div");
+            noteTextNode.innerHTML = `<pre>${note.text}</pre>`
+
+/* TODO add edit event listener            
+            noteEditNode.addEventListener(
+                "click",
+                function(e) {
+                    e.preventDefault();
+//If the edit event listener is triggered, then display the notes, with the current note in edit mode
+                    showNotes(noteListArray, noteEditNode.id)
+                }
+            )
+*/
+        }
+
+//TODO Formatting the note description
+        noteTextNode.className = "col-6 notetext border";
+        noteTextNode.style.textWrap = "wrap";
+//Adding the note INto the DOM       
+        noteNode.appendChild(noteTitleNode);
+        noteNode.appendChild(noteTextNode);
+        noteNode.appendChild(noteEditNode);
+        noteNode.appendChild(noteDeleteNode);
+        currentNotes.appendChild(noteNode);
+//Clearing the "new note" input field
+        newNoteInput.value = ""
+    })
+}
+
+
+}
+
+
+
+
+        dataList.innerHTML = ""; // Clear the list before rendering
+        data.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item.id + ": " + JSON.stringify(item);
+        dataList.appendChild(li);
+        });
+
+
+
+
 
 //Add event listeners
 
-//(Event listeners need to be able to send data to server and refresh the page)
+
+
+//(Event document listener need to be able refresh the page)
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const dataList = document.getElementById("data-list");
@@ -29,7 +178,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchData = async () => {
     try {
       const response = await fetch("/data");
-      const data = await response.json();
+      const noteListArray = await response.json();
+
+
       dataList.innerHTML = ""; // Clear the list before rendering
       data.forEach((item) => {
         const li = document.createElement("li");
@@ -69,7 +220,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ADDING TASKS
+
+
+
+
+
+
+
+// ADDING NOTES
 
 addButton.addEventListener("click", function(e) {
     e.preventDefault();
@@ -103,15 +261,11 @@ function noteCheck(text, noteListArray){
     }
 };
 
-
-
 //Helper function to add new note into note storage array, and display the note list on the page
 function addNote(newNote) {
     noteListArray.push(newNote);
     showNotes(noteListArray, -1);
 }
-
-//DISPLAYING THE TASKS
 
 //Helper function to display the notes
 function showNotes(noteListArray, id) {
@@ -139,6 +293,9 @@ function showNotes(noteListArray, id) {
 //Node content
         noteTitleNode.textContent = `Note ${note.ID+1}`;
         noteDeleteNode.textContent = "Delete";
+
+
+
 //Task deletion functionality added to delete button
         noteDeleteNode.id = note.ID;
         noteDeleteNode.addEventListener(
@@ -150,8 +307,12 @@ function showNotes(noteListArray, id) {
             reset()
             }
         )
+
+
 //Labelling the edit node with the note id, so that the id can be accessed when the edit event listener is triggered.
         noteEditNode.id = note.ID;
+
+
 //If note has been clicked for editing, replace the edit button with a save button, and requisite functionality
         if (noteEditNode.id == id) {
             noteEditNode.className = "col-2 taskedit bg-warning";
@@ -159,7 +320,10 @@ function showNotes(noteListArray, id) {
 //In this case, define the text node as an "input" element
             var noteTextNode = document.createElement("textarea");
             noteTextNode.setAttribute('rows', 6);
-            noteTextNode.defaultValue = note.text;                   
+            noteTextNode.defaultValue = note.text;
+  
+            
+
             noteEditNode.addEventListener(
                 "click",
                 function(e) {
