@@ -18,12 +18,6 @@ const dataFilePath = path.join(__dirname, "data.json");
 // Define the port the server will listen on
 const PORT = 3001;
 
-// Start the server and listen on the specified port
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-
 //BASE FILE SERVING RESPONDER FUNCTIONS
 
 // Serve static files from the 'public' directory
@@ -35,9 +29,6 @@ app.get("/", (req, res) => {
 });
 
 // Wildcard route to handle undefined routes
-app.all("*", (req, res) => {
-  res.status(404).send("Route not found");
-});
 
 //DATABASE BASE FUNCTIONS
 
@@ -63,7 +54,7 @@ const writeData = (data) => {
 app.post("/data", (req, res) => {
   const currentData = readData();
   const maxNoteID = currentData[0].maxNoteID
-  const newData = {id:(maxNoteID+1), req.body};
+  const newData = {id:(maxNoteID+1), ...req.body};
   currentData.push(newData);
   writeData(currentData);
   res.json({ message: "Note saved successfully", note: newData });
@@ -75,7 +66,7 @@ app.get("/all_notes", (req, res) => {
   res.json(all_notes);
 });
 
-// Handle GET request to Read a particular note by ID
+// Handle GET request to read a particular note by ID
 app.get("/data/:id", (req, res) => {
   const data = readData();
   const item = data.find((item) => item.id === req.params.id);
@@ -85,33 +76,69 @@ app.get("/data/:id", (req, res) => {
   res.json(item);
 });
 
-
-// TODO: Handle PUT request  to update a particular note
-
-app.post("/data/put/:id", (req, res) => {
+// Handle PUT request  to update a particular note
+app.put("/data/:id", (req, res) => {
     const currentData = readData();
     const noteIndex = currentData.findIndex((note) => note.id === req.params.id);
-    if (!noteIndex) {
+    if (noteIndex == -1) {
       return res.status(404).json({ message: "Note not found" });
     };
     const maxNoteID = currentData[0].maxNoteID
-    const newData = {id:(maxNoteID+1), req.body};
-    currentData.splice(noteIndex, 1, newData )
-    currentData.push(newData);
+    const newData = {id:(maxNoteID+1), ...req.body};
+    currentData.splice(noteIndex, 1, newData)
     writeData(currentData);
-    res.json({ message: "Data updated successfully", data: newData });
+    res.json({ message: "Data updated successfully", array: currentData});
 });
-
 
 // TODO: Handle DELETE request to delete a particular note
 
-app.post("/data/delete/:id", (req, res) => {
+app.delete("/data/:id", (req, res) => {
     currentData = readData();
     const noteIndex = currentData.findIndex((note) => note.id === req.params.id);
-    if (!noteIndex) {
+    if (noteIndex == -1) {
       return res.status(404).json({message: "Data not found"});
     };
-    currentData.splice(itemIndex, 1, req.body.text)
+    currentData.splice(itemIndex, 1)
     writeData(currentData);
-    res.json({message: "Data saved successfully"});
-})
+    res.json({message: "Data deleted successfully"});
+});
+
+app.all(/(.*)/, (req, res) => {
+  res.status(404).send("Route not found");
+});
+
+// Start the server and listen on the specified port
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+/*
+app.put("/data/:id", (req, res) => {
+  var data = readData();
+  console.log("id", req.params.id);
+  const itemIndex = data.findIndex((item) => item.id === req.params.id);
+  console.log("index", itemIndex);
+  const newData = { id: req.params.id, ...req.body };
+  console.log("newData", newData);
+  data.splice(itemIndex, 1, newData);
+  console.log("data", data);
+  writeData(data);
+  res.json({ message: "Data saved successfully", data: newData });
+});
+
+
+// TODO: Handle DELETE request to delete data by ID
+
+app.delete("/data/:id", (req, res) => {
+  var data = readData();
+  console.log("id", req.params.id);
+  const itemIndex = data.findIndex((item) => item.id === req.params.id);
+  console.log("index", itemIndex);
+  data.splice(itemIndex, 1);
+  console.log("data", data);
+  writeData(data);
+  res.json({ message: "Data saved successfully", data: newData });
+});
+
+
+*/
