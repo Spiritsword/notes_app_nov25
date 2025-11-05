@@ -41,6 +41,7 @@ const readData = () => {
   return JSON.parse(data);
 };
 
+
 // Function to write data to the JSON file
 const writeData = (data) => {
   fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
@@ -53,7 +54,8 @@ const writeData = (data) => {
 // Handle POST request to save new data with a unique ID
 app.post("/data", (req, res) => {
   const currentData = readData();
-  const maxNoteID = currentData[0].maxNoteID
+  const maxNoteID = currentData[0].maxNoteID;
+  currentData[0].maxNoteID = maxNoteID+1;
   const newData = {id:(maxNoteID+1), ...req.body};
   currentData.push(newData);
   writeData(currentData);
