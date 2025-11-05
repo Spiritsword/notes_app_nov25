@@ -1,7 +1,13 @@
-
 [
   {
-    "maxNoteID": -1,
+    "maxNoteID": -1
+  },
+  {
+    "id": 0,
+    "text": "This is a reminder note."
+  },
+  {
+    "id": 0,
+    "text": "This is a birthday note."
   }
-
 ]
