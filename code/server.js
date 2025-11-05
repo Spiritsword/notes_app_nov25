@@ -1,4 +1,4 @@
-//INITIALISATION
+// INITIALISATION
 
 // Import the required modules
 const express = require("express");
@@ -96,11 +96,13 @@ app.put("/data/:id", (req, res) => {
 
 app.delete("/data/:id", (req, res) => {
     currentData = readData();
-    const noteIndex = currentData.findIndex((note) => note.id === req.params.id);
+    console.log("deleting");
+    console.log("id", req.params.id)
+    const noteIndex = currentData.findIndex((note) => note.id == req.params.id);
     if (noteIndex == -1) {
       return res.status(404).json({message: "Data not found"});
     };
-    currentData.splice(itemIndex, 1)
+    currentData.splice(noteIndex, 1)
     writeData(currentData);
     res.json({message: "Data deleted successfully"});
 });
