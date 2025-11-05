@@ -71,7 +71,7 @@ app.get("/all_notes", (req, res) => {
 // Handle GET request to read a particular note by ID
 app.get("/data/:id", (req, res) => {
   const data = readData();
-  const item = data.find((item) => item.id === req.params.id);
+  const item = data.find((item) => item.id == req.params.id);
   if (!item) {
     return res.status(404).json({ message: "Data not found" });
   }
@@ -81,12 +81,11 @@ app.get("/data/:id", (req, res) => {
 // Handle PUT request  to update a particular note
 app.put("/data/:id", (req, res) => {
     const currentData = readData();
-    const noteIndex = currentData.findIndex((note) => note.id === req.params.id);
+    const noteIndex = currentData.findIndex((note) => note.id == req.params.id);
     if (noteIndex == -1) {
       return res.status(404).json({ message: "Note not found" });
     };
-    const maxNoteID = currentData[0].maxNoteID
-    const newData = {id:(maxNoteID+1), ...req.body};
+    const newData = {id:req.params.id, ...req.body};
     currentData.splice(noteIndex, 1, newData)
     writeData(currentData);
     res.json({ message: "Data updated successfully", array: currentData});
