@@ -44,8 +44,6 @@ app.use(cors());
 //     next();
 // });
 
-
-
 // Handle GET request at the root route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -80,6 +78,8 @@ app.post("/data", (req, res) => {
   const maxNoteID = currentData[0].maxNoteID;
   currentData[0].maxNoteID = maxNoteID+1;
   const newData = {id:(maxNoteID+1), ...req.body};
+  console.log("req.body", req.body);
+  //console.log("...req.body", ...req.body);
   currentData.push(newData);
   writeData(currentData);
   res.json({ message: "Note saved successfully" /*note: newData*/ });
@@ -108,7 +108,9 @@ app.put("/data/:id", (req, res) => {
     if (noteIndex == -1) {
       return res.status(404).json({ message: "Note not found" });
     };
-    const newData = {id:req.params.id, ...req.body};
+    console.log("req.body", req.body);
+    //console.log("...req.body", ...req.body);
+    const newData = {id:11, ...req.body};
     currentData.splice(noteIndex, 1, newData)
     writeData(currentData);
     res.json({ message: "Data updated successfully", array: currentData});
