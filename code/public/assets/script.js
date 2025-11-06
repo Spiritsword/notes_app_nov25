@@ -175,21 +175,19 @@ function showNotes(noteListArray, id) {
         noteTitleNode.textContent = `Note ${note.id}`;
         noteDeleteNode.textContent = "Delete";
 
-//Add delete functionality
+//Adding delete event listener
+        noteDeleteNode.id = note.id;
 
-/* TODO Task deletion functionality added to delete button
-        noteDeleteNode.id = note.ID;
-        noteDeleteNode.addEventListener(
-            "click",
-            function(e) {
-            e.preventDefault();
-            newArray = spliceOut(noteListArray, noteDeleteNode.id);
-            showNotes(newArray);
-            reset()
-            }
-        )
-
-*/
+noteDeleteNode.addEventListener("click", async (event) => {
+    try {
+        event.preventDefault();
+        await deleteData(noteDeleteNode.id);
+        topLoop(); // Refresh the DOM
+        }
+    catch (error) {
+      console.error("Error adding data:", error);
+    }
+})
 
 //Add save functionality - if relevant
 
