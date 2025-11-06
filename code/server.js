@@ -4,6 +4,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
 //const { v4: uuidv4 } = require("uuid");
 
 // Create an instance of an Express application
@@ -22,6 +23,28 @@ const PORT = 3001;
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(cors());
+
+// app.use(function (req, res, next) {
+
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+//     // Website you wish to allow to connect
+//     //res.setHeader('Sec-Fetch-Mode', 'no-cors');
+    
+//     // Request headers you wish to allow
+//     //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+//     // Pass to next layer of middleware
+//     next();
+// });
+
+
 
 // Handle GET request at the root route
 app.get("/", (req, res) => {
@@ -59,11 +82,11 @@ app.post("/data", (req, res) => {
   const newData = {id:(maxNoteID+1), ...req.body};
   currentData.push(newData);
   writeData(currentData);
-  res.json({ message: "Note saved successfully", note: newData });
+  res.json({ message: "Note saved successfully" /*note: newData*/ });
 });
 
 // Handle GET request to read all notes
-app.get("/all_notes", (req, res) => {
+app.get("/data/all_notes", (req, res) => {
   const all_notes = readData();
   res.json(all_notes);
 });

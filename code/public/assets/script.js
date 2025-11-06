@@ -17,83 +17,88 @@ var newNote;
 //Extract nodeListArray from data by removing maxNodId element at start of data array
 
 function extractNoteListArray(data){
-    return(data.shift(1));
+    data.shift(1);
+    return(data);
 }
 
 // Function to fetch nodeListArray from the backend
 
-const fetchData = async () => {
+const fetchAllData = async () => {
     try {
-        const response = await fetch("/data");
+        const response = await fetch("http://localhost:3001/data/all_notes");
         const data = await response.json();
         const noteListArray = extractNoteListArray(data);
-        return(noteListArray);
+        return(data);
     } catch (error) {
         console.error("Error fetching data:", error);
     }
 };
 
-
-function makePost (note) {
-    const postData = async () => {
-        try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
-                method: 'POST',
-                body: JSON.stringify({
-                    title:name,
-                    body:note,
-                })
-            })
-            return response;
-        }
-        
-        catch (error) {
-            console.error("Error posting data:", error);
-        }
+const fetchOneData = async (id) => {
+    try {
+        const response = await fetch(`http://localhost:3001/data/${id}`);
+        const data = await response.json();
+        return(data);
+    } catch (error) {
+        console.error("Error fetching data:", error);
     }
-    return postData;
-}
+};
 
-function makeUpdate (note) {
-    const updateData = async () => {
+const postData = async (text) => {
+    try {
+        const response = await fetch(
+            "http://localhost:3001/data", {
+                method: "POST",
+                headers: {
+				    'Content-Type': 'application/json',
+				    Accept: 'application/json',
+			    },
+                body: JSON.stringify({
+                    'text':text
+                })
+            }
+        );
+        return response;
+    }
+    catch (error) {
+        console.error("Error posting data:", error);
+    }
+};
+
+const updateData = async (id, text) => {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            const response = await fetch(`http://localhost:3001/data/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify({
-                    title:name,
-                    body:note,
+                    "text":text
                 })
             })
             return response;
-        }
-        
+        }        
         catch (error) {
             console.error("Error posting data:", error);
         }
-    }
-    return postData;
-}
+};
 
-function makeDelete (id) {
-    const postData = async () => {
+const deleteData = async (id) => {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            const response = await fetch(`http://localhost:3001/data/${id}`,{
                 method: 'DELETE',
-                body: JSON.stringify({
-                    title:name,
-                    body:id,
-                })
-            })
+            });
+            console.log(response.value);
             return response;
-        }
-        
+            
+        }        
         catch (error) {
             console.error("Error posting data:", error);
         }
-    }
-    return postData;
-}
+};
 
+//const result = fetchAllData();
+const result = postData("Testing post");
+console.log(result);
+
+/*
 
 //Amend DOM According to Notes Data
 
@@ -141,6 +146,8 @@ function showNotes(noteListArray, id) {
 
 */
 
+/*
+
 //Labelling the edit node with the note id, so that the id can be accessed when the edit event listener is triggered.
         noteEditNode.id = note.ID;
 
@@ -170,7 +177,7 @@ function showNotes(noteListArray, id) {
 //Rebuilding the note list without any note being in edit mode
                 }
             )
-*/                
+                
         }
 
 //If the note is not already being edited, then set up the edit button, with appropriate functionality
@@ -203,6 +210,8 @@ function showNotes(noteListArray, id) {
     })
 }
 
+
+
 /* TODO
 
 const addNote(id, text)
@@ -224,7 +233,7 @@ Code snippet from Week 7 exercise
         dataList.appendChild(li);
         });
 
-*/
+
 
 
 //Add event listeners
@@ -280,14 +289,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+*/
 
 
-
-
-
-
-
-
+/*
 
 // ADDING NOTES
 
@@ -448,3 +453,5 @@ function spliceOut(taskListArray, id) {
 function reset() {
     noteListArray = newArray;
 }
+
+*/
