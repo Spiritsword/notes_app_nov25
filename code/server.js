@@ -74,6 +74,8 @@ const writeData = (data) => {
 
 // Handle POST request to save new data with a unique ID
 app.post("/data", (req, res) => {
+  console.log("posting data");
+  console.log("req.body1", req.body);
   const currentData = readData();
   const maxNoteID = currentData[0].maxNoteID;
   currentData[0].maxNoteID = maxNoteID+1;

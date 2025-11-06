@@ -45,6 +45,7 @@ const fetchOneData = async (id) => {
 
 const postData = async (text) => {
     try {
+        console.log("posting", text);
         const response = await fetch(
             "http://localhost:3001/data", {
                 method: "POST",
@@ -57,6 +58,7 @@ const postData = async (text) => {
                 })
             }
         );
+        console.log("note added log");
         return "note added";
     }
     catch (error) {
@@ -105,20 +107,36 @@ const deleteData = async (id) => {
 
 // Function to handle form submission to add new data
 
-addButton.addEventListener("submit", async (event) => {
+addButton.addEventListener("click", async (event) => {
     try {
         event.preventDefault();
-        const newNote = newNoteInput.textContent;
+        const newNote = newNoteInput.value;
+        console.log("text from input", newNote );
         response = await postData(newNote);
-        if (response.ok) {
-            dataInput.value = ""; // Clear input field
-            showNotes(); // Refresh the DOM
+        newNoteInput.value = ""; // Clear input field
+        topLoop(); // Refresh the DOM
         }
-    }
     catch (error) {
       console.error("Error adding data:", error);
     }
 })
+
+/*
+addButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    newTask = {
+        ID:maxTaskID,
+        text:newTaskInput.value
+    }
+    tC = taskCheck(newTask.text, taskListArray);
+    if (tC) {
+        maxTaskID++;
+        newTask.ID = maxTaskID;
+        addTask(newTask)
+    }
+})
+*/
+
 
 //FUNCTIONS FOR UPDATING THE DOM
 
@@ -248,13 +266,6 @@ function showNotes(noteListArray, id) {
 
     })  
 }
-
-
-
-
-
-
-
 
 
 /*
