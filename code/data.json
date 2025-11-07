@@ -1,29 +1,5 @@
 [
   {
-    "maxNoteID": 108
-  },
-  {
-    "id": "103",
-    "text": "rt"
-  },
-  {
-    "id": 104,
-    "text": "sdfg"
-  },
-  {
-    "id": "105",
-    "text": "dfgh"
-  },
-  {
-    "id": 106,
-    "text": "fgj"
-  },
-  {
-    "id": 107,
-    "text": "sh"
-  },
-  {
-    "id": 108,
-    "text": "dgfh"
+    "maxNoteID": -1
   }
 ]
