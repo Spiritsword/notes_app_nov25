@@ -13,7 +13,7 @@ const cors = require('cors');
 const app = express();
 
 const corsOptions = {
-  origin: 'https://notes-app-nov25.vercel.app/', // Replace with your actual frontend URL
+  origin: 'https://notes-app-nov25-5fyx.vercel.app/', // Replace with your actual frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
 };
