@@ -11,7 +11,8 @@ const crud = require("express").Router();
 crud.use(express.json());
 
 // Define the path to the JSON file
-const dataFilePath = path.join(__dirname, "data.json");
+const dataFilePath = path.join(__dirname, "../data.json");
+console.log(dataFilePath);
 
 //DATABASE BASE FUNCTIONS
 

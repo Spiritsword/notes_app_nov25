@@ -134,7 +134,7 @@ function addDeleteListener (noteDeleteNode) {
             topLoop(); // Refresh the DOM
             }
         catch (error) {
-        console.error("Error adding data:", error);
+        console.error("Error deleting data:", error);
         }
     });
 }
@@ -168,7 +168,7 @@ function addSaveListener(noteEditNode, noteTextNode, note){
             }            
         }
         catch (error) {
-        console.error("Error adding data:", error);
+        console.error("Error updating data:", error);
         }
     })
 }
@@ -190,7 +190,7 @@ function addEditListener(noteEditNode){
             showNotes(noteListArray, noteEditNode.id)
         }
         catch (error) {
-            console.error("Error adding data:", error);
+            console.error("Error editing data:", error);
         }
     })
 }
