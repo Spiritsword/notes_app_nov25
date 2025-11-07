@@ -1,21 +1,17 @@
 [
   {
-    "maxNoteID": 8
+    "maxNoteID": 9
   },
   {
     "id": "5",
     "text": "fgjhk7dyjdh"
   },
   {
-    "id": 6,
-    "text": "ghj\nhjkl\nhlk;\nuo;\ngk\n"
+    "id": "6",
+    "text": "ghj\nhjkl\nhlk;\nuo;\n\n"
   },
   {
-    "id": "7",
-    "text": "hjjrhetthdyhjghdts"
-  },
-  {
-    "id": "8",
-    "text": "g,k\nraghddhnjksrrth"
+    "id": 9,
+    "text": "cbn"
   }
 ]

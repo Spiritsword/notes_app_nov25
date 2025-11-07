@@ -4,108 +4,20 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const staticroutes = require("./routes/staticroutes");
+const crudroutes = require("./routes/crudroutes");
 
 // Create an instance of an Express application
 const app = express();
 
-// Middleware to parse incoming JSON requests
-app.use(express.json());
+// import static route(s)
+app.use(staticroutes);
 
-// Define the path to the JSON file
-const dataFilePath = path.join(__dirname, "data.json");
+// import CRUD route(s)
+app.use(crudroutes);
 
 // Define the port the server will listen on
 const PORT = 3001;
-
-//BASE FILE SERVING RESPONDER FUNCTIONS
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "public")));
-
-// Handle GET request at the root route
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-// Wildcard route to handle undefined routes
-
-//DATABASE BASE FUNCTIONS
-
-// Function to read data from the JSON file
-const readData = () => {
-  if (!fs.existsSync(dataFilePath)) {
-    return [];
-  }
-  const data = fs.readFileSync(dataFilePath);
-  return JSON.parse(data);
-};
-
-
-// Function to write data to the JSON file
-const writeData = (data) => {
-  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
-};
-
-//RESPONSES TO CLIENT CRUD REQUESTS
-
-//Create a note
-
-// Handle POST request to save new data with a unique ID
-app.post("/data", (req, res) => {
-  const currentData = readData();
-  const maxNoteID = currentData[0].maxNoteID;
-  currentData[0].maxNoteID = maxNoteID+1;
-  const newData = {id:(maxNoteID+1), ...req.body};
-  currentData.push(newData);
-  writeData(currentData);
-  res.json({ message: "Note saved successfully" /*note: newData*/ });
-});
-
-// Handle GET request to read all notes
-app.get("/data/all_notes", (req, res) => {
-  const all_notes = readData();
-  res.json(all_notes);
-});
-
-// Handle GET request to read a particular note by ID
-app.get("/data/:id", (req, res) => {
-  const data = readData();
-  const item = data.find((item) => item.id == req.params.id);
-  if (!item) {
-    return res.status(404).json({ message: "Data not found" });
-  }
-  res.json(item);
-});
-
-// Handle PUT request  to update a particular note
-app.put("/data/:id", (req, res) => {
-    const currentData = readData();
-    const noteIndex = currentData.findIndex((note) => note.id == req.params.id);
-    if (noteIndex == -1) {
-      return res.status(404).json({ message: "Note not found" });
-    };
-    const newData = {id:req.params.id, ...req.body};
-    currentData.splice(noteIndex, 1, newData)
-    writeData(currentData);
-    res.json({ message: "Data updated successfully", array: currentData});
-});
-
-// TODO: Handle DELETE request to delete a particular note
-
-app.delete("/data/:id", (req, res) => {
-    currentData = readData();
-    const noteIndex = currentData.findIndex((note) => note.id == req.params.id);
-    if (noteIndex == -1) {
-      return res.status(404).json({message: "Data not found"});
-    };
-    currentData.splice(noteIndex, 1)
-    writeData(currentData);
-    res.json({message: "Data deleted successfully"});
-});
-
-app.all(/(.*)/, (req, res) => {
-  res.status(404).send("Route not found");
-});
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
