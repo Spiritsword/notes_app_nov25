@@ -1,18 +1,19 @@
 // CRUD ROUTES
 
+//Required modules
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
 
-// create a new router
+//Creating a new router
 const crud = require("express").Router();
 
-// Middleware to parse incoming JSON requests
+//Middleware to parse incoming JSON requests
 crud.use(express.json());
 
-// Define the path to the JSON file
+//Defining the path to the JSON file
 const dataFilePath = path.join(__dirname, "../data.json");
-console.log(dataFilePath);
+
 
 //DATABASE BASE FUNCTIONS
 
@@ -25,16 +26,15 @@ const readData = () => {
   return JSON.parse(data);
 };
 
-// Function to write data to the JSON file
+//Function to write data to the JSON file
 const writeData = (data) => {
   fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 };
 
-//RESPONSES TO CLIENT CRUD REQUESTS
+//RESPONDING TO CLIENT CRUD REQUESTS
 
-//Create a note
-
-// Handle POST request to save new data with a unique ID
+//Handling POST request to save new note
+//A new, unique ID is created, just higher than maximum previous ID
 crud.post("/data", (req, res) => {
   const currentData = readData();
   const maxNoteID = currentData[0].maxNoteID;
@@ -45,13 +45,13 @@ crud.post("/data", (req, res) => {
   res.json({ message: "Note saved successfully" /*note: newData*/ });
 });
 
-// Handle GET request to read all notes
+//Handling GET request to read all notes
 crud.get("/data/all_notes", (req, res) => {
   const all_notes = readData();
   res.json(all_notes);
 });
 
-// Handle GET request to read a particular note by ID
+//Handling GET request to read a particular note by ID
 crud.get("/data/:id", (req, res) => {
   const data = readData();
   const item = data.find((item) => item.id == req.params.id);
@@ -61,7 +61,7 @@ crud.get("/data/:id", (req, res) => {
   res.json(item);
 });
 
-// Handle PUT request  to update a particular note
+//Handling PUT request to update a particular note
 crud.put("/data/:id", (req, res) => {
     const currentData = readData();
     const noteIndex = currentData.findIndex((note) => note.id == req.params.id);
@@ -74,8 +74,7 @@ crud.put("/data/:id", (req, res) => {
     res.json({ message: "Data updated successfully", array: currentData});
 });
 
-// TODO: Handle DELETE request to delete a particular note
-
+//Handling DELETE request to delete a particular note
 crud.delete("/data/:id", (req, res) => {
     currentData = readData();
     const noteIndex = currentData.findIndex((note) => note.id == req.params.id);

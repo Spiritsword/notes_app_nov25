@@ -1,4 +1,4 @@
-// GLOBAL DECLARATIONS, DEFINITIONS, AND INITIALISATION
+//GLOBAL DECLARATIONS, DEFINITIONS, AND INITIALISATION
 
 const addButton = document.getElementById("addbutton");
 const noteListCol = document.getElementById("notelistcol");
@@ -10,14 +10,12 @@ var newNote;
 //FUNCTIONS FOR INTERACTING WITH THE SERVER
 
 //Function for extracting trimmed list of notes from extracted full data by removing maxNoteId element at start of data array
-
 function extractNoteListArray(data){
     data.shift();
     return(data);
 }
 
-// Function to fetch raw list of notes from the backend
-
+//Function to fetch raw list of notes from the backend
 const fetchAllData = async () => {
     try {
         const response = await fetch("http://localhost:3001/data/all_notes");
@@ -30,7 +28,6 @@ const fetchAllData = async () => {
 };
 
 // Function to fetch a single note
-
 const fetchOneData = async (id) => {
     try {
         const response = await fetch(`http://localhost:3001/data/${id}`);
@@ -42,7 +39,6 @@ const fetchOneData = async (id) => {
 };
 
 // Function to post a single note
-
 const postData = async (text) => {
     try {
         const response = await fetch(
@@ -65,54 +61,48 @@ const postData = async (text) => {
 };
 
 // Function to update a single note
-
 const updateData = async (id, text) => {
-
-        try {
-            const response = await fetch(`http://localhost:3001/data/${id}`, {
-                method: 'PUT',
-                headers: {
-				    'Content-Type': 'application/json',
-				    Accept: 'application/json',
-			    },
-                body: JSON.stringify({
-                    'text':text
-                })
+    try {
+        const response = await fetch(`http://localhost:3001/data/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                'text':text
             })
-
-            return response;
-        }        
-        catch (error) {
-            console.error("Error posting data:", error);
-        }
+        })
+        return response;
+    }        
+    catch (error) {
+        console.error("Error posting data:", error);
+    }
 };
 
 // Function to delete a single note
-
 const deleteData = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:3001/data/${id}`,{
-                method: 'DELETE'
-            });
-            return response;
-            
-        }        
-        catch (error) {
-            console.error("Error posting data:", error);
-        }
+    try {
+        const response = await fetch(`http://localhost:3001/data/${id}`, {
+            method: 'DELETE'
+        });
+        return response;
+    }        
+    catch (error) {
+        console.error("Error posting data:", error);
+    }
 };
 
 // Function to handle form submission to add new data
-
 addButton.addEventListener("click", async (event) => {
     try {
         event.preventDefault();
         const newNote = newNoteInput.value;
         fetchAllData();
         if (noteCheck(newNote, noteListArray)) {
-        response = await postData(newNote);
-        newNoteInput.value = ""; // Clear input field
-        topLoop(); // Refresh the DOM
+            response = await postData(newNote);
+            newNoteInput.value = ""; // Clearing input field
+            topLoop(); // Refreshing the DOM
         }
     }
     catch (error) {
@@ -120,19 +110,17 @@ addButton.addEventListener("click", async (event) => {
     }
 })
 
-
-
 //FUNCTIONS FOR UPDATING THE DOM
 
 //Helper functions for formatting and for adding event listeners to buttons
 
-//This function adds the delete listener to a note's delete button
+//Function to add the delete listener to a note's delete button
 function addDeleteListener (noteDeleteNode) {
     noteDeleteNode.addEventListener("click", async (event) => {
         try {
             event.preventDefault();
             await deleteData(noteDeleteNode.id);
-            topLoop(); // Refresh the DOM
+            topLoop(); // Refreshing the DOM
             }
         catch (error) {
         console.error("Error deleting data:", error);
@@ -152,6 +140,7 @@ function formatSave(noteEditNode, noteTextNode, note){
         return noteTextNode;
 }
 
+//This function adds a save event listener to an edit button that has been clicked
 function addSaveListener(noteEditNode, noteTextNode, note){
     noteEditNode.addEventListener("click", async (event) => {
         try {
@@ -159,14 +148,14 @@ function addSaveListener(noteEditNode, noteTextNode, note){
             noteListArray = await fetchAllData();
             //When the save button is clicked, the edited text becomes the fixed note description
             if (note.text == noteTextNode.value){
-                topLoop();
+                topLoop(); //Refreshing the page
             }
             else if (noteCheck(noteTextNode.value, noteListArray)){
                 await updateData(noteEditNode.id, noteTextNode.value);
-                topLoop();
+                topLoop(); //Refreshing the page
             }
             else {
-                topLoop();
+                topLoop(); //Refreshing the page
             }            
         }
         catch (error) {
@@ -175,7 +164,8 @@ function addSaveListener(noteEditNode, noteTextNode, note){
     })
 }
 
-function formatEdit(noteEditNode, noteTextNode, note){
+//This function formats a note's edit button
+function formatEdit(noteEditNode, noteTextNode, note) {
     noteEditNode.className = "col-2 noteedit bg-success";
     noteEditNode.textContent = "Edit";
     noteTextNode = document.createElement("div");
@@ -183,13 +173,14 @@ function formatEdit(noteEditNode, noteTextNode, note){
     return noteTextNode;
 }
 
-function addEditListener(noteEditNode){
+//This function adds a listener a note's edit button
+function addEditListener(noteEditNode) {
     noteEditNode.addEventListener("click", async (event) => {
         try {
             event.preventDefault();
             noteListArray = await fetchAllData();
-            //Display the notes, with the current note in edit mode (i.e. with save button)
-            showNotes(noteListArray, noteEditNode.id)
+            //Displaying the notes, with the current note in edit mode (i.e. with save button)
+            showNotes(noteListArray, noteEditNode.id);
         }
         catch (error) {
             console.error("Error editing data:", error);
@@ -197,12 +188,14 @@ function addEditListener(noteEditNode){
     })
 }
 
+//Helper function to check if the text of a note is duplicated in another note
 function foundIn(text, noteListArray){
     duplicate = false;
     noteListArray.forEach(function (note) {duplicate = (duplicate || text==note.text)})
     return duplicate;
 }
 
+//Helper function to check if a new note is empty or a duplicate
 function noteCheck(text, noteListArray){
 //Excluding empty tasks
     if (text == ""){
@@ -220,55 +213,56 @@ function noteCheck(text, noteListArray){
     }
 };
 
-// Amend DOM according to retrieved notes
 
-//Function to display the notes extracted from the server
+//Function to display the notes extracted from the server in the DOM
 //"id" is the note id of the note for which the edit button has been clicked
 //If no note is being edited, then "id" is -1
-
 function showNotes(noteListArray, id) {
     
-    //Clear display of notes, to rebuild
+    //Clearing display of notes, in order to rebuild
     currentNotes.innerHTML = "";
 
-    //Adding notes into the display, one at a time
-    
+    //Adding notes into the display, one at a time    
     noteListArray.forEach( function (note) {
+
+        //Node generation
 
         //"noteTitleNode" is the node displaying the note number label
         //"noteEditNode" is the edit button associated with the note
         //"noteDeleteNode" is the delete button associated with the note
         //"noteTextNode" is the note description associated with the note
         //"noteNode" is the full note row
-
-        //Node generation
         const noteNode = document.createElement("div");
         const noteTitleNode = document.createElement("button");
         const noteEditNode = document.createElement("button");
         const noteDeleteNode = document.createElement("button");
         var noteTextNode = document.createElement("div");
-        //Node styling
+
+        //Note styling
         noteNode.className = "row pb-3";
         noteTitleNode.className = "col-2 notetitle bg-primary";
         noteDeleteNode.className = "col-2 notedelete bg-danger";
-        //Node content
+
+        //Note content
         noteTitleNode.textContent = `Note ${note.id}`;
         noteDeleteNode.textContent = "Delete";
 
         //Labelling the delete node with the note id, so that the id can be accessed when the delete event listener is triggered.
         noteDeleteNode.id = note.id;
-        //Add delete event listener
+
+        //Adding delete event listener
         addDeleteListener(noteDeleteNode)
 
         //Labelling the edit node with the note id, so that the id can be accessed when the edit event listener is triggered.
         noteEditNode.id = note.id;
+
         //If node has been clicked for editing, format edit button as save button and add save listener.
         if (noteEditNode.id == id) {
             noteTextNode = formatSave(noteEditNode, noteTextNode, note);
             addSaveListener(noteEditNode, noteTextNode, note);
         }
 
-        //Add edit functionality - if relevant
+        //Adding edit functionality
 
         //If the note has not been marked for editing, then set up the edit button, and add edit event listener.
         else {
@@ -276,9 +270,8 @@ function showNotes(noteListArray, id) {
             addEditListener(noteEditNode);
         }
 
-        //Format note text
+        //Formatting note text
         noteTextNode.className = "col-6 notetext border";
-        //noteTextNode.style.textWrap = "wrap";
 
         //Add the note into the DOM       
         noteNode.appendChild(noteTitleNode);
@@ -286,11 +279,11 @@ function showNotes(noteListArray, id) {
         noteNode.appendChild(noteEditNode);
         noteNode.appendChild(noteDeleteNode);
         currentNotes.appendChild(noteNode);
+    })
+
+    //Clearing the "new note" input field
+    newNoteInput.value = "";
     }
-)
-//Clear the "new note" input field
-newNoteInput.value = "";
-}
 
 //INITIALISATION OF PAGE
 

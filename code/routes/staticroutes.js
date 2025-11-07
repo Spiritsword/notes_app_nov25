@@ -2,16 +2,16 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 
-// Create a new router
+//Creating a new router
 const static = require("express").Router();
 
-// Serve static files from the 'public' directory
+//Serving static files from the 'public' directory
 static.use(express.static(path.join(__dirname, "../public")));
 
-// Handle GET request at the root route
+//Handling GET request at the root route
 static.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
 
-// Export the router
+//Exporting the router
 module.exports = static;
