@@ -45,7 +45,6 @@ const fetchOneData = async (id) => {
 
 const postData = async (text) => {
     try {
-        console.log("posting", text);
         const response = await fetch(
             "http://localhost:3001/data", {
                 method: "POST",
@@ -58,7 +57,6 @@ const postData = async (text) => {
                 })
             }
         );
-        console.log("note added log");
         return "note added";
     }
     catch (error) {
@@ -69,7 +67,7 @@ const postData = async (text) => {
 // Function to update a single note
 
 const updateData = async (id, text) => {
-        console.log("text", text);
+
         try {
             const response = await fetch(`http://localhost:3001/data/${id}`, {
                 method: 'PUT',
@@ -81,7 +79,7 @@ const updateData = async (id, text) => {
                     'text':text
                 })
             })
-            console.log("response", response);
+
             return response;
         }        
         catch (error) {
@@ -96,7 +94,6 @@ const deleteData = async (id) => {
             const response = await fetch(`http://localhost:3001/data/${id}`,{
                 method: 'DELETE'
             });
-            console.log(response.value);
             return response;
             
         }        
@@ -113,7 +110,6 @@ addButton.addEventListener("click", async (event) => {
         const newNote = newNoteInput.value;
         fetchAllData();
         if (noteCheck(newNote, noteListArray)) {
-        console.log("text from input", newNote );
         response = await postData(newNote);
         newNoteInput.value = ""; // Clear input field
         topLoop(); // Refresh the DOM
@@ -160,8 +156,6 @@ function addSaveListener(noteEditNode, noteTextNode, note){
             event.preventDefault();
             noteListArray = await fetchAllData();
             //When the save button is clicked, the edited text becomes the fixed note description
-            console.log("note.text", note.text);
-            console.log("noteTextNode.value", noteTextNode.value);            
             if (note.text == noteTextNode.value){
                 topLoop();
             }
@@ -203,7 +197,6 @@ function addEditListener(noteEditNode){
 
 function foundIn(text, noteListArray){
     duplicate = false;
-    console.log(typeof(noteListArray));
     noteListArray.forEach(function (note) {duplicate = (duplicate || text==note.text)})
     return duplicate;
 }
@@ -278,8 +271,6 @@ function showNotes(noteListArray, id) {
         //If the note has not been marked for editing, then set up the edit button, and add edit event listener.
         else {
             noteTextNode = formatEdit(noteEditNode, noteTextNode, note);
-            console.log("calling function note.id", note.id);
-            console.log("innerHTML in calling function: noteTextNode.innerHTML", noteTextNode.innerHTML)
             addEditListener(noteEditNode);
         }
 
