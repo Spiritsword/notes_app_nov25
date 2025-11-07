@@ -4,8 +4,6 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const cors = require("cors");
-//const { v4: uuidv4 } = require("uuid");
 
 // Create an instance of an Express application
 const app = express();
@@ -23,26 +21,6 @@ const PORT = 3001;
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
-
-app.use(cors());
-
-// app.use(function (req, res, next) {
-
-//     // Website you wish to allow to connect
-//     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-
-//     // Request methods you wish to allow
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//     // Website you wish to allow to connect
-//     //res.setHeader('Sec-Fetch-Mode', 'no-cors');
-    
-//     // Request headers you wish to allow
-//     //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-//     // Pass to next layer of middleware
-//     next();
-// });
 
 // Handle GET request at the root route
 app.get("/", (req, res) => {
@@ -74,14 +52,10 @@ const writeData = (data) => {
 
 // Handle POST request to save new data with a unique ID
 app.post("/data", (req, res) => {
-  console.log("posting data");
-  console.log("req.body1", req.body);
   const currentData = readData();
   const maxNoteID = currentData[0].maxNoteID;
   currentData[0].maxNoteID = maxNoteID+1;
   const newData = {id:(maxNoteID+1), ...req.body};
-  console.log("req.body", req.body);
-  //console.log("...req.body", ...req.body);
   currentData.push(newData);
   writeData(currentData);
   res.json({ message: "Note saved successfully" /*note: newData*/ });
@@ -110,8 +84,6 @@ app.put("/data/:id", (req, res) => {
     if (noteIndex == -1) {
       return res.status(404).json({ message: "Note not found" });
     };
-    console.log("req.body", req.body);
-    //console.log("...req.body", ...req.body);
     const newData = {id:req.params.id, ...req.body};
     currentData.splice(noteIndex, 1, newData)
     writeData(currentData);
@@ -122,8 +94,6 @@ app.put("/data/:id", (req, res) => {
 
 app.delete("/data/:id", (req, res) => {
     currentData = readData();
-    console.log("deleting");
-    console.log("id", req.params.id)
     const noteIndex = currentData.findIndex((note) => note.id == req.params.id);
     if (noteIndex == -1) {
       return res.status(404).json({message: "Data not found"});
@@ -141,34 +111,3 @@ app.all(/(.*)/, (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-/*
-app.put("/data/:id", (req, res) => {
-  var data = readData();
-  console.log("id", req.params.id);
-  const itemIndex = data.findIndex((item) => item.id === req.params.id);
-  console.log("index", itemIndex);
-  const newData = { id: req.params.id, ...req.body };
-  console.log("newData", newData);
-  data.splice(itemIndex, 1, newData);
-  console.log("data", data);
-  writeData(data);
-  res.json({ message: "Data saved successfully", data: newData });
-});
-
-
-// TODO: Handle DELETE request to delete data by ID
-
-app.delete("/data/:id", (req, res) => {
-  var data = readData();
-  console.log("id", req.params.id);
-  const itemIndex = data.findIndex((item) => item.id === req.params.id);
-  console.log("index", itemIndex);
-  data.splice(itemIndex, 1);
-  console.log("data", data);
-  writeData(data);
-  res.json({ message: "Data saved successfully", data: newData });
-});
-
-
-*/
