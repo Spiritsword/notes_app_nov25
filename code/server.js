@@ -6,9 +6,22 @@ const fs = require("fs");
 const path = require("path");
 const staticroutes = require("./routes/staticroutes");
 const crudroutes = require("./routes/crudroutes");
+const cors = require('cors');
+;
 
 //Creating an instance of an Express application
 const app = express();
+
+const corsOptions = {
+  origin: 'https://notes-app-nov25.vercel.app/', // Replace with your actual frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+};
+
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 //Import static route(s)
 app.use(staticroutes);
