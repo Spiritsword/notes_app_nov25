@@ -124,8 +124,9 @@ addButton.addEventListener("click", async (event) => {
 
 //FUNCTIONS FOR UPDATING THE DOM
 
-//Helper formatting and functions for adding event listeners to buttons
+//Helper functions for formatting and for adding event listeners to buttons
 
+//This function adds the delete listener to a note's delete button
 function addDeleteListener (noteDeleteNode) {
     noteDeleteNode.addEventListener("click", async (event) => {
         try {
@@ -139,11 +140,12 @@ function addDeleteListener (noteDeleteNode) {
     });
 }
 
+//This function formats a note's save button
 function formatSave(noteEditNode, noteTextNode, note){
-//Replace edit button with a save button
+//Replacing edit button with a save button
         noteEditNode.className = "col-2 taskedit bg-warning";
         noteEditNode.textContent = "Save";
-//Define the text node as an "text" area
+//Defining the text node as an "text" area
         noteTextNode = document.createElement("textarea");
         noteTextNode.setAttribute('rows', 6);
         noteTextNode.defaultValue = note.text;
@@ -221,8 +223,8 @@ function noteCheck(text, noteListArray){
 // Amend DOM according to retrieved notes
 
 //Function to display the notes extracted from the server
-//"id" is the note id of a note for which the edit button has been clicked
-//If no note is being edited, then this is -1
+//"id" is the note id of the note for which the edit button has been clicked
+//If no note is being edited, then "id" is -1
 
 function showNotes(noteListArray, id) {
     
