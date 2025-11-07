@@ -112,7 +112,7 @@ app.put("/data/:id", (req, res) => {
     };
     console.log("req.body", req.body);
     //console.log("...req.body", ...req.body);
-    const newData = {id:11, ...req.body};
+    const newData = {id:req.params.id, ...req.body};
     currentData.splice(noteIndex, 1, newData)
     writeData(currentData);
     res.json({ message: "Data updated successfully", array: currentData});
