@@ -18,7 +18,7 @@ function extractNoteListArray(data){
 //Function to fetch raw list of notes from the backend
 const fetchAllData = async () => {
     try {
-        const response = await fetch("http://localhost:3001/data/all_notes");
+        const response = await fetch("/data/all_notes");
         const data = await response.json();
         noteListArray = extractNoteListArray(data);
         return(data);
@@ -30,7 +30,7 @@ const fetchAllData = async () => {
 // Function to fetch a single note
 const fetchOneData = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3001/data/${id}`);
+        const response = await fetch(`/data/${id}`);
         const data = await response.json();
         return(data);
     } catch (error) {
@@ -42,7 +42,7 @@ const fetchOneData = async (id) => {
 const postData = async (text) => {
     try {
         const response = await fetch(
-            "http://localhost:3001/data", {
+            "/data", {
                 method: "POST",
                 headers: {
 				    'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const postData = async (text) => {
 // Function to update a single note
 const updateData = async (id, text) => {
     try {
-        const response = await fetch(`http://localhost:3001/data/${id}`, {
+        const response = await fetch(`/data/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const updateData = async (id, text) => {
 // Function to delete a single note
 const deleteData = async (id) => {
     try {
-        const response = await fetch(`http://localhost:3001/data/${id}`, {
+        const response = await fetch(`/data/${id}`, {
             method: 'DELETE'
         });
         return response;

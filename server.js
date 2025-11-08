@@ -13,7 +13,7 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static("public"));
+
 
 
 // const corsOptions = {
@@ -22,13 +22,11 @@ app.use(express.static("public"));
 //   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
 // };
 
-
-
 // Handle preflight requests
 //app.options('*', cors(corsOptions));
 
 //Import static route(s)
-// app.use(staticroutes);
+app.use(staticroutes);
 
 //Import CRUD route(s)
 app.use(crudroutes);

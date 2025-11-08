@@ -1,13 +1,13 @@
 [
   {
-    "maxNoteID": 10
+    "maxNoteID": 11
   },
   {
-    "id": "5",
-    "text": "sdfgasdf"
+    "id": "10",
+    "text": "sdfg\n\nxcb"
   },
   {
-    "id": 10,
-    "text": "sdfg"
+    "id": 11,
+    "text": "xcvbxcvb"
   }
 ]
