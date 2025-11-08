@@ -12,16 +12,17 @@ const cors = require('cors');
 //Creating an instance of an Express application
 const app = express();
 
-const corsOptions = {
-  origin: 'https://notes-app-nov25-5fyx.vercel.app/', // Replace with your actual frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
-};
 
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: 'https://notes-app-nov25-5fyx.vercel.app/', // Replace with your actual frontend URL
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+//   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+// };
+
+app.use(cors());
 
 // Handle preflight requests
-app.options('*', cors(corsOptions));
+//app.options('*', cors(corsOptions));
 
 //Import static route(s)
 app.use(staticroutes);
