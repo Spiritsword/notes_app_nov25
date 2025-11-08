@@ -4,12 +4,15 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const cors = require('cors');
 
 //Creating a new router
 const crud = require("express").Router();
 
 //Middleware to parse incoming JSON requests
 crud.use(express.json());
+
+crud.use(cors());
 
 //Defining the path to the JSON file
 const dataFilePath = path.join(__dirname, "../data.json");

@@ -6,8 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const staticroutes = require("./routes/staticroutes");
 const crudroutes = require("./routes/crudroutes");
-const cors = require('cors');
-;
+
 
 //Creating an instance of an Express application
 const app = express();
@@ -19,7 +18,7 @@ const app = express();
 //   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
 // };
 
-app.use(cors());
+
 
 // Handle preflight requests
 //app.options('*', cors(corsOptions));
