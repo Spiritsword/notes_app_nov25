@@ -6,14 +6,18 @@ const fs = require("fs");
 const path = require("path");
 const staticroutes = require("./routes/staticroutes");
 const crudroutes = require("./routes/crudroutes");
+const cors = require('cors'); 
 
 
 //Creating an instance of an Express application
 const app = express();
+app.use(express.json());
+app.use(cors());
+app.use(express.static("public"));
 
 
 // const corsOptions = {
-//   origin: 'https://notes-app-nov25-5fyx.vercel.app/', // Replace with your actual frontend URL
+//   origin: 'https://notes-app-nov25-5fyx.vercel.app/' , // Replace with your actual frontend URL
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
 //   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
 // };
@@ -24,7 +28,7 @@ const app = express();
 //app.options('*', cors(corsOptions));
 
 //Import static route(s)
-app.use(staticroutes);
+// app.use(staticroutes);
 
 //Import CRUD route(s)
 app.use(crudroutes);
