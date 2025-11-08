@@ -10,7 +10,7 @@ const path = require("path");
 const crud = require("express").Router();
 
 //Middleware to parse incoming JSON requests
-app.use(express.json());
+crud.use(express.json());
 
 //Defining the path to the JSON file
 const dataFilePath = path.join(__dirname, "../data.json");
