@@ -13,6 +13,7 @@ const crud = require("express").Router();
 crud.use(express.json());
 
 crud.use(cors());
+crud.options('*', cors());
 
 //Defining the path to the JSON file
 const dataFilePath = path.join(__dirname, "../data.json");
