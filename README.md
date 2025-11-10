@@ -1,6 +1,6 @@
 
  # Notes App 
-> The purpose of this app is to gather and display a list of user notes (which can be on any topic or theme, or miscellaneous). 
+> The purpose of this app is to gather and display a list of user notes (which can be on any topic or theme, or miscellaneous). The app is designed to be hosted in monorepo form, where the frontend, backend and "database" (the last being in the form of a persistent JSON file) are deployed using an Express server on a 'single origin' domain.
 
  ## Installation Instructions
  - Step 1: Clone the GitHub repository onto your local machine.
