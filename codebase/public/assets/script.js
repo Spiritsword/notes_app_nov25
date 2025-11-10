@@ -247,16 +247,16 @@ function showNotes(noteListArray, id) {
         noteTitleNode.textContent = `Note ${note.id}`;
         noteDeleteNode.textContent = "Delete";
 
-        //Labelling the delete node with the note id, so that the id can be accessed when the delete event listener is triggered.
+        //Labelling the delete node with the note id, so that the id can be accessed when the delete event listener is triggered
         noteDeleteNode.id = note.id;
 
         //Adding delete event listener
         addDeleteListener(noteDeleteNode)
 
-        //Labelling the edit node with the note id, so that the id can be accessed when the edit event listener is triggered.
+        //Labelling the edit node with the note id, so that the id can be accessed when the edit event listener is triggered
         noteEditNode.id = note.id;
 
-        //If node has been clicked for editing, format edit button as save button and add save listener.
+        //If node has been clicked for editing, format edit button as save button and add save listener
         if (noteEditNode.id == id) {
             noteTextNode = formatSave(noteEditNode, noteTextNode, note);
             addSaveListener(noteEditNode, noteTextNode, note);
@@ -264,7 +264,7 @@ function showNotes(noteListArray, id) {
 
         //Adding edit functionality
 
-        //If the note has not been marked for editing, then set up the edit button, and add edit event listener.
+        //If the note has not been marked for editing, then set up the edit button, and add edit event listener
         else {
             noteTextNode = formatEdit(noteEditNode, noteTextNode, note);
             addEditListener(noteEditNode);
